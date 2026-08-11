@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prahar. Plan your day around your gut.</title>
+<meta name="description" content="A FODMAP timing tool for Indian food. Your gut is limited by rate rather than by total, so the answer is never no. It is later.">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%BE%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+
+<nav>
+  <div class="wordmark">Prahar</div>
+  <div class="navpill">
+    <a href="#now">Right Now</a>
+    <a href="#day">The Day</a>
+    <a href="#fuel">Fuel</a>
+    <a href="#journal">Journal</a>
+    <a href="#numbers">Your Numbers</a>
+    <a href="#how">How</a>
+  </div>
+  <button class="statusbtn" id="statusBtn" onclick="document.getElementById('day').scrollIntoView()">
+    <span id="statusTxt">Today</span><span class="badge" id="badge">0</span>
+  </button>
+</nav>
+
+<!-- ------------------------------------------------------------ hero -->
+<header class="hero">
+  <canvas id="heroCv" aria-hidden="true"></canvas>
+  <h1 id="heroType" aria-label="Prahar"></h1>
+
+  <p class="hero-lede"><b>A prahar is one of the eight watches of the day.</b> Your gut keeps them too.
+     Trouble comes from too much fermenting inside one watch, not from too much across a
+     whole day. Move the load around and almost nothing is off the menu.</p>
+
+  <div class="daystrip" id="watchrail"></div>
+  <div class="drift a" aria-hidden="true"></div>
+  <div class="drift b" aria-hidden="true"></div>
+</header>
+
+<!-- ------------------------------------------------------- right now -->
+<section class="band cream" id="now">
+  <div class="wrap">
+    <div class="band-head reveal"><h2>Right<br>Now</h2></div>
+
+    <div class="quick reveal">
+      <label class="eyebrow" for="quickSearch">What are you about to eat?</label>
+      <input type="search" id="quickSearch" placeholder="Dal, dosa, chole, gulab jamun…" autocomplete="off">
+      <div id="quickAnswer" hidden></div>
+    </div>
+
+    <div class="doors reveal">
+      <button class="door urgent" id="openRelief">
+        <b>It hurts right now</b>
+        <span>Five things that help, in the order to try them</span>
+      </button>
+      <button class="door" id="openAssess">
+        <b>Is this even IBS?</b>
+        <span>The warning signs that mean a doctor, then whether your pattern fits</span>
+      </button>
+      <button class="door" id="openLabel">
+        <b>Read a packet</b>
+        <span>Paste the ingredients list and find what is hiding in it</span>
+      </button>
+      <div class="door flat">
+        <b>Where you are today</b>
+        <span id="nowLine">Nothing logged for today yet.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------- day -->
+<section class="band olive" id="day">
+  <div class="wrap">
+    <div class="band-head reveal">
+      <h2>The Day</h2>
+      <button class="round" id="clearDay">Clear<br>the day</button>
+    </div>
+
+    <div class="datebar reveal">
+      <div class="datenav">
+        <button id="prevDay" aria-label="Previous day">‹</button>
+        <div class="datelabel">
+          <b id="dateLabel">Today</b>
+          <span class="micro dim" id="dateSub"></span>
+        </div>
+        <button id="nextDay" aria-label="Next day">›</button>
+        <button class="pill-btn ghost" id="todayBtn">Today</button>
+      </div>
+
+      <div class="rate">
+        <span class="eyebrow">How was this day?</span>
+        <div class="scores" id="dayScore"></div>
+        <span class="micro dim" id="scoreHint"></span>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="chart-head">
+        <span class="eyebrow">Fermentation load across the watches</span>
+        <div class="legend" id="legend"></div>
+      </div>
+      <canvas id="dayCv" aria-label="Predicted fermentation load through the day"></canvas>
+      <div class="fixes" id="fixes"></div>
+    </div>
+
+    <div class="cols reveal">
+      <div class="col">
+        <span class="eyebrow">What you're eating</span>
+        <div id="meals"></div>
+        <button class="pill-btn wide" id="openKitchen">Add food +</button>
+      </div>
+
+      <div class="col">
+        <span class="eyebrow">What your day looks like</span>
+        <div id="events"></div>
+        <div class="inline-add">
+          <input type="text" id="evName" placeholder="Meeting, bus, exam…" aria-label="Event name">
+          <input type="time" id="evStart" value="15:00" aria-label="Event start time">
+          <button id="addEvent">Add</button>
+        </div>
+      </div>
+
+      <div class="col">
+        <span class="eyebrow">How you actually felt</span>
+        <div id="symptoms"></div>
+        <div class="slider-row">
+          <input type="time" id="syTime" value="17:00" aria-label="Time you felt it">
+          <input type="range" id="syScore" min="0" max="10" step="1" value="5" aria-label="Severity out of ten">
+          <output id="syVal">5</output>
+          <button class="pill-btn" id="addSymptom">Log</button>
+        </div>
+        <p class="note">Notes for the day go in the <a href="#journal">journal</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------ fuel -->
+<section class="band cream" id="fuel">
+  <div class="wrap">
+    <div class="band-head reveal"><h2>Fuel</h2></div>
+
+    <div class="cols two reveal">
+      <div class="col">
+        <span class="eyebrow">What you are aiming for</span>
+        <p class="note" style="padding:0.6rem 0 0.9rem">If you lift, the hard part is not the
+           calories. It is that a big meal sets your gut off whatever is in it, and the cheap
+           Indian protein is dal and rajma, which are the worst of the GOS. So the number that
+           matters here is <b>calories per unit of fermentable load</b>.</p>
+
+        <div class="bodyrow">
+          <label class="micro" for="kgIn">Bodyweight, kg</label>
+          <input type="number" id="kgIn" min="25" max="200" step="1" value="70">
+        </div>
+        <div class="filters" id="goalPick" style="margin:1rem 0 0.5rem"></div>
+        <p class="note"><b id="fuelTargets"></b></p>
+
+        <div class="fuelbars">
+          <div><span class="eyebrow">Calories</span><div id="kcalBar"></div></div>
+          <div><span class="eyebrow">Protein</span><div id="proBar"></div></div>
+        </div>
+        <p class="note" id="fuelGap" style="padding-top:0.7rem"></p>
+      </div>
+
+      <div class="col">
+        <span class="eyebrow">Cheapest calories for your gut</span>
+        <p class="note" style="padding:0.6rem 0 0.3rem">Ranked by how many calories each one buys
+           per unit of load. Fat and white rice win every time, because the denominator is zero.</p>
+        <div id="fuelPicks"></div>
+        <button class="pill-btn wide" id="openProtein">All protein sources +</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------- journal -->
+<section class="band olive" id="journal">
+  <div class="wrap">
+    <div class="band-head reveal"><h2>Journal</h2></div>
+
+    <div class="calwrap reveal">
+      <div class="calhead">
+        <div class="calnav">
+          <button id="monthPrev" aria-label="Previous month">&lsaquo;</button>
+          <b id="monthLabel"></b>
+          <button id="monthNext" aria-label="Next month">&rsaquo;</button>
+        </div>
+        <span class="micro dim" id="monthStats"></span>
+      </div>
+      <div class="caldow" id="caldow" aria-hidden="true"></div>
+      <div class="calgrid" id="calgrid"></div>
+      <div class="callegend">
+        <span class="micro"><i class="sw s-good"></i>0 to 3, a good day</span>
+        <span class="micro"><i class="sw s-mid"></i>4 to 6</span>
+        <span class="micro"><i class="sw s-bad"></i>7 to 10, a bad day</span>
+        <span class="micro"><i class="sw s-none"></i>not rated</span>
+      </div>
+    </div>
+
+    <div class="entry reveal">
+      <div class="entry-head">
+        <div class="entry-when">
+          <span class="eyebrow">Writing about</span>
+          <b id="entryDate">Today</b>
+        </div>
+        <div class="entry-nav">
+          <button id="entryPrev" aria-label="Previous day">‹</button>
+          <button id="entryNext" aria-label="Next day">›</button>
+        </div>
+      </div>
+
+      <p class="note">Write down what actually happened. A meal out, a bad night's sleep, a
+         deadline, travel, where you are in your cycle. These move symptoms as much as food
+         does, and you will not remember them in a month.</p>
+
+      <textarea id="journalNote" rows="5" placeholder="What happened today?" aria-label="Journal entry"></textarea>
+
+      <div class="rate">
+        <span class="eyebrow">Rate the day, where 0 is fine and 10 is awful</span>
+        <div class="scores" id="journalScore"></div>
+        <span class="micro dim" id="journalHint"></span>
+      </div>
+
+      <div class="entry-meals">
+        <span class="eyebrow">What you ate that day</span>
+        <div id="entryMeals"></div>
+        <button class="pill-btn" id="entryAddFood">Add food +</button>
+        <p class="note" id="entryFlags"></p>
+      </div>
+    </div>
+
+    <div class="cols two reveal">
+      <div class="col">
+        <span class="eyebrow">Is it that food?</span>
+        <p class="note" id="findingsLede" style="padding:0.6rem 0 0.3rem"></p>
+        <div id="findings"></div>
+      </div>
+
+      <div class="col">
+        <span class="eyebrow">Your days</span>
+        <p class="note" style="padding:0.6rem 0 0.3rem">Open any day to change what you ate or how you rated it.
+           Only rated days count towards the findings.</p>
+        <div id="history"></div>
+      </div>
+    </div>
+
+    <div class="cols two reveal" style="margin-top:3rem">
+      <div class="col">
+        <span class="eyebrow">How a verdict is reached</span>
+        <p class="note" style="padding:0.6rem 0 0">Each food's average day score on the days you ate it
+           gets compared against the days you didn't. It needs at least <b>three days on each
+           side</b> before it will say anything. Until then it says <b>Watching</b> rather than
+           guessing.</p>
+      </div>
+      <div class="col">
+        <span class="eyebrow">Why it sometimes refuses</span>
+        <p class="note" style="padding:0.6rem 0 0">If two foods always turn up together, dal and roti
+           for instance, no amount of data can separate them. Both get marked <b>Tangled</b>. Eat one
+           without the other and they come apart. A food you eat nearly every day gets <b>No gap</b>,
+           because there is no comparison to make until you take a few days off it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------- numbers -->
+<section class="band sage" id="numbers">
+  <div class="wrap">
+    <div class="band-head reveal"><h2>Your<br>Numbers</h2></div>
+
+    <div class="cols two reveal">
+      <div class="col">
+        <span class="eyebrow">Tolerance per channel</span>
+        <p class="note" style="padding:0.6rem 0 0.3rem">Every channel starts <b>untested</b>, sitting at the
+           published cutoff. Run a challenge and replace the guess with your own number.</p>
+        <div id="channels"></div>
+      </div>
+
+      <div class="col">
+        <span class="eyebrow">How a challenge runs</span>
+        <p class="note" style="padding:0.6rem 0 0.3rem">Three escalating doses, then three or four
+           days back at baseline before the next channel.</p>
+        <div id="ladder"></div>
+        <div class="warn" style="margin-top:1.4rem">
+          <p class="note"><b>Fructans and GOS need a rest day between doses.</b> They can produce
+             symptoms for up to 48 hours, so testing them back to back smears one day's reaction
+             onto the next. Lactose, fructose and polyols clear faster and can run on consecutive
+             days.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cols two reveal" style="margin-top:3.5rem">
+      <div class="col">
+        <span class="eyebrow">Is food even your problem?</span>
+        <div class="triage" id="triage" style="margin-top:1rem"></div>
+      </div>
+      <div class="col">
+        <span class="eyebrow">Why this question comes first</span>
+        <p class="note" style="padding:0.6rem 0 0">For a large share of people with IBS the gut produces
+           an ordinary amount of gas and the nervous system amplifies the signal. Diet does very
+           little for that, and restricting further does harm. So before you delete food from your
+           life, this checks whether your discomfort actually follows what you ate. If there isn't
+           enough to go on, it says so instead of inventing an answer.</p>
+        <button class="pill-btn" id="resetAll" style="margin-top:1.2rem">Reset everything</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------- how -->
+<section class="band cream" id="how">
+  <div class="wrap">
+    <div class="prose reveal">
+      <section>
+        <h3>Rate, not total</h3>
+        <p>Different FODMAPs land in different watches. Polyols and excess fructose pull water into
+           the small bowel and hit within <b>1 to 3 hours</b>. Lactose ferments early, at <b>2 to 4
+           hours</b>. Fructans and GOS ferment further down in the colon, so they arrive late, at
+           <b>4 to 8 hours</b>.</p>
+        <p>So the same plate in a different watch makes for a different day. Eat the rajma in the
+           early night, Pradosh, from nine onwards, and the peak lands in the deep night while you
+           are asleep.</p>
+
+        <h3 style="margin-top:1.2rem">One dish is not one number</h3>
+        <p>Restaurant gravies are thickened with cashew paste and cream, while the Jain version drops
+           onion and garlic entirely. Same name on the menu, three different foods. So every curry
+           here carries all three and you pick the one you are actually eating.</p>
+        <p><b>Soaking works because GOS dissolves in water.</b> Soak pulses, throw away the water and
+           rinse them, and α-GOS falls by 10 to 40 percent. That is why rajma has a soaking setting
+           rather than a red light.</p>
+      </section>
+
+      <section>
+        <h3>What a unit means</h3>
+        <p>Load is counted in <b>serve-units</b>, which is grams divided by the published per-serving
+           cutoff. So 0.30 g of fructan comes to exactly 1.00 unit, and one unit is one "low"
+           serving. The curves are added up across every meal and checked against your own
+           thresholds.</p>
+
+        <div class="warn">
+          <h3>Before you restrict anything</h3>
+          <p class="note">See a doctor rather than an app if you have any of these:</p>
+          <ul id="flags"></ul>
+          <p class="note">Coeliac disease has to be ruled out <b>before</b> you cut gluten, because the
+             test only works while you are still eating it.</p>
+        </div>
+
+        <p class="fine">Dish values are modelled from recipe decomposition rather than lab-measured
+           for the finished dish. Per-serve cutoffs come from Varney et al. 2017. Everything is
+           stored on this device only. This is a planning tool, not medical advice.</p>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------- footer -->
+<footer>
+  <div class="fgrid">
+    <div class="fmain">
+      <h3>Not never.<br>Just not now.</h3>
+      <p>Every other tool in this category answers with a red light. This one answers with an hour,
+         because the gut is limited by rate rather than by total.</p>
+    </div>
+    <div class="flists">
+      <div>
+        <h4>Channels</h4>
+        <ul id="fchannels"></ul>
+      </div>
+      <div>
+        <h4>The eight watches</h4>
+        <ul id="fwatches"></ul>
+      </div>
+    </div>
+  </div>
+  <div class="fbase">
+    <div>© 2026 Prahar</div>
+    <div>Modelled values · Not medical advice</div>
+  </div>
+</footer>
+
+<!-- ---------------------------------------------------- kitchen drawer -->
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Kitchen">
+  <header class="drawer-head">
+    <div>
+      <h2>Kitchen</h2>
+      <p class="micro dim" id="drawerCount"></p>
+    </div>
+    <button class="x big" id="closeKitchen" aria-label="Close kitchen">&times;</button>
+  </header>
+
+  <input type="search" id="dishSearch" placeholder="Search dishes…" aria-label="Search dishes">
+  <div class="filters" id="filters"></div>
+  <div class="dishlist" id="dishlist"></div>
+</aside>
+
+<!-- ----------------------------------------------------- protein panel -->
+<aside class="drawer wide" id="proteinPanel" hidden aria-label="Protein sources">
+  <header class="drawer-head">
+    <div>
+      <h2>Protein</h2>
+      <p class="micro dim" id="proteinCount"></p>
+    </div>
+    <button class="x big" id="closeProtein" aria-label="Close">&times;</button>
+  </header>
+  <div class="filters" id="pgroups"></div>
+  <button class="pill-btn ghost" id="vegOnly" style="justify-self:start">Vegetarian only</button>
+  <div class="dishlist" id="proteinList"></div>
+</aside>
+
+<!-- ------------------------------------------------------- label panel -->
+<aside class="drawer wide" id="labelPanel" hidden aria-label="Read a packet">
+  <header class="drawer-head">
+    <div>
+      <h2>Read a packet</h2>
+      <p class="micro dim">Nothing leaves this device.</p>
+    </div>
+    <button class="x big" id="closeLabel" aria-label="Close">&times;</button>
+  </header>
+  <textarea id="labelIn" rows="4" placeholder="Paste the ingredients list here. For example: refined wheat flour, sugar, edible vegetable oil, milk solids, inulin, onion powder, salt, INS 420" aria-label="Ingredients list"></textarea>
+  <div class="panel-body" id="labelOut"></div>
+</aside>
+
+<!-- ------------------------------------------------------- flare panel -->
+<aside class="drawer wide" id="reliefPanel" hidden aria-label="Ease it now">
+  <header class="drawer-head">
+    <div>
+      <h2>Ease it now</h2>
+      <p class="micro dim">Work down the list. The first two are the fastest.</p>
+    </div>
+    <button class="x big" id="closeRelief" aria-label="Close">&times;</button>
+  </header>
+  <div class="panel-body" id="reliefBody"></div>
+</aside>
+
+<!-- ------------------------------------------------------ triage panel -->
+<aside class="drawer wide" id="assessPanel" hidden aria-label="Is this even IBS?">
+  <header class="drawer-head">
+    <div>
+      <h2>Is this even IBS?</h2>
+      <p class="micro dim">A pattern check to take to a doctor. Not a diagnosis.</p>
+    </div>
+    <button class="x big" id="closeAssess" aria-label="Close">&times;</button>
+  </header>
+  <div class="panel-body" id="assessBody"></div>
+</aside>
+
+<script src="assets/data.js?v=3"></script>
+<script src="assets/app.js?v=3"></script>
+</body>
+</html>
