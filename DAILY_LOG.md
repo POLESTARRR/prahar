@@ -5,3 +5,6 @@ The `app.js` entry point is 2,012 bytes, identical in size to umbra's app.js, su
 
 ## 2026-10-13
 The eight watches of the day are named as Sanskrit 'prahars' (3-hour blocks): Pratah, Purvahna, Madhyahna, Aparahna, Sayahna, Pradosh, Nishith, Usha.
+
+## 2026-10-13
+Dishes are tagged with flags like `vr:1` (variant-aware), `pulse:1` (legume-based), enabling selective filtering and preparation adjustments.
