@@ -8,3 +8,6 @@ The eight watches of the day are named as Sanskrit 'prahars' (3-hour blocks): Pr
 
 ## 2026-10-13
 Dishes are tagged with flags like `vr:1` (variant-aware), `pulse:1` (legume-based), enabling selective filtering and preparation adjustments.
+
+## 2026-10-14
+Each FODMAP channel in `CHANNELS` has a cutoff threshold (in grams), a peak time (hours after eating), and a shape parameter for release curve modeling.
