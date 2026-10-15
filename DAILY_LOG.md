@@ -11,3 +11,6 @@ Dishes are tagged with flags like `vr:1` (variant-aware), `pulse:1` (legume-base
 
 ## 2026-10-14
 Each FODMAP channel in `CHANNELS` has a cutoff threshold (in grams), a peak time (hours after eating), and a shape parameter for release curve modeling.
+
+## 2026-10-15
+Cutoffs are sourced from Varney et al. 2017 (J Gastroenterol Hepatol) and Monash University thresholds.
