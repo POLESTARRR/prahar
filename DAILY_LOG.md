@@ -14,3 +14,6 @@ Each FODMAP channel in `CHANNELS` has a cutoff threshold (in grams), a peak time
 
 ## 2026-10-15
 Cutoffs are sourced from Varney et al. 2017 (J Gastroenterol Hepatol) and Monash University thresholds.
+
+## 2026-10-16
+Serving sizes are expressed in culturally-appropriate units: '1 katori', '1 plate', '2 pieces' rather than grams or cups.
