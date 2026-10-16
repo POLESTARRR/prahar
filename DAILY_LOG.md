@@ -17,3 +17,6 @@ Cutoffs are sourced from Varney et al. 2017 (J Gastroenterol Hepatol) and Monash
 
 ## 2026-10-16
 Serving sizes are expressed in culturally-appropriate units: '1 katori', '1 plate', '2 pieces' rather than grams or cups.
+
+## 2026-10-16
+The model explicitly states that all gram values are MODELLED from recipe decomposition, not lab-measured for finished dishes.
