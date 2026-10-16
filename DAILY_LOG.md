@@ -20,3 +20,6 @@ Serving sizes are expressed in culturally-appropriate units: '1 katori', '1 plat
 
 ## 2026-10-16
 The model explicitly states that all gram values are MODELLED from recipe decomposition, not lab-measured for finished dishes.
+
+## 2026-10-16
+Preparation methods like 'soaked + rinsed' reduce GOS by 35% (mult: 0.65) based on α-GOS leaching into water.
