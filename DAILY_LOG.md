@@ -23,3 +23,6 @@ The model explicitly states that all gram values are MODELLED from recipe decomp
 
 ## 2026-10-16
 Preparation methods like 'soaked + rinsed' reduce GOS by 35% (mult: 0.65) based on α-GOS leaching into water.
+
+## 2026-10-20
+The `data.js` file contains 954 lines of FODMAP reference data modelling grams per serving for six fermentation channels: fructan, GOS, lactose, fructose, sorbitol, and mannitol.
