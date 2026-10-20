@@ -29,3 +29,6 @@ The `data.js` file contains 954 lines of FODMAP reference data modelling grams p
 
 ## 2026-10-21
 FODMAP peak times range from 2.0 hours (fructose, sorbitol) to 6.0 hours (fructan), reflecting different GI transit and fermentation speeds.
+
+## 2026-10-21
+Dish variants account for preparation differences: `home`, `restaurant` (cashew paste and cream multipliers), and `jain` (no onion/garlic, fructan reduced to 0.08x).
