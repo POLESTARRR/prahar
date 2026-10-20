@@ -26,3 +26,6 @@ Preparation methods like 'soaked + rinsed' reduce GOS by 35% (mult: 0.65) based 
 
 ## 2026-10-20
 The `data.js` file contains 954 lines of FODMAP reference data modelling grams per serving for six fermentation channels: fructan, GOS, lactose, fructose, sorbitol, and mannitol.
+
+## 2026-10-21
+FODMAP peak times range from 2.0 hours (fructose, sorbitol) to 6.0 hours (fructan), reflecting different GI transit and fermentation speeds.
