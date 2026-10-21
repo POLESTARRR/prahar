@@ -32,3 +32,6 @@ FODMAP peak times range from 2.0 hours (fructose, sorbitol) to 6.0 hours (fructa
 
 ## 2026-10-21
 Dish variants account for preparation differences: `home`, `restaurant` (cashew paste and cream multipliers), and `jain` (no onion/garlic, fructan reduced to 0.08x).
+
+## 2026-10-21
+Regional cuisine is tagged with 'north' and 'south' labels, reflecting distinct ingredient and preparation patterns.
