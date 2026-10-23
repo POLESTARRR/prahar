@@ -35,3 +35,6 @@ Dish variants account for preparation differences: `home`, `restaurant` (cashew 
 
 ## 2026-10-21
 Regional cuisine is tagged with 'north' and 'south' labels, reflecting distinct ingredient and preparation patterns.
+
+## 2026-10-23
+Each channel has an associated testing protocol in the data: 'Bread: 1, then 2, then 3 slices' for fructan, enabling structured elimination-reintroduction.
