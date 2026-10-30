@@ -38,3 +38,6 @@ Regional cuisine is tagged with 'north' and 'south' labels, reflecting distinct 
 
 ## 2026-10-23
 Each channel has an associated testing protocol in the data: 'Bread: 1, then 2, then 3 slices' for fructan, enabling structured elimination-reintroduction.
+
+## 2026-10-30
+Every dish is defined via a helper function `D(id, name, region, serve, v, flags)` that defaults all six FODMAP channels to zero then overrides.
