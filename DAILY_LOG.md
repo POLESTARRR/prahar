@@ -41,3 +41,6 @@ Each channel has an associated testing protocol in the data: 'Bread: 1, then 2, 
 
 ## 2026-10-30
 Every dish is defined via a helper function `D(id, name, region, serve, v, flags)` that defaults all six FODMAP channels to zero then overrides.
+
+## 2026-10-30
+The application is client-side heavy with extensive JavaScript data files rather than a traditional server-side data layer.
